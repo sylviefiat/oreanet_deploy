@@ -38,6 +38,19 @@ oreanet:
     - oreanetdb:oreanetdb
     - oreanetgis:oreanetgis
 
+oreanet-fj:
+  image: sylviefiat/joomla-cot
+  command: /run.sh
+  hostname: oreanet-fj
+  ports:
+    - 84:80
+    - 26:25
+  volumes:
+    - ./oreanet-fj_data/app:/app
+  links:
+    - oreanetdb:oreanetdb
+    - oreanetgis:oreanetgis
+
 oreanetrest:
   image: sylviefiat/apache-php
   command: /run.sh
