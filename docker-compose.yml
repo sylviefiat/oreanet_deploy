@@ -14,12 +14,9 @@ oreanetdb:
 
 oreanetgis:
   image: sylviefiat/docker-geoserver
-  command: "/opt/geoserver/bin/startup.sh"
   hostname: oreanetgis
   volumes:
     - ./oreanetgis_data/data_dir:/opt/geoserver/data_dir
-    - ./oreanetgis_data/WEB-INF:/opt/geoserver/webapps/geoserver/WEB-INF
-    - ./oreanetgis_data/lib:/opt/geoserver/lib
   ports:
     - "8082:8080"
   links:
