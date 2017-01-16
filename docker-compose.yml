@@ -1,16 +1,15 @@
 # OREANET NEW CALEDONIA WEBSITE
 oreanetdb:
   hostname: oreanetdb
-  image: centurylink/mysql
+  image: sylviefiat/alpine-mysql
   volumes:
     - ./oreanetdb_data:/var/lib/mysql
   ports:
     - "3307:3306"
   environment:
-    - MYSQL_DATABASE=oreanet
-    - MYSQL_USERNAME=docker
-    - MYSQL_PASSWORD=docker
-    - MYSQL_ROOT_PASSWORD=docker
+    - MYSQL_USER=docker
+    - MYSQL_USER_PWD=docker
+    - MYSQL_ROOT_PWD=docker
 
 oreanetgis:
   image: sylviefiat/docker-geoserver
@@ -48,16 +47,15 @@ oreanet-fj:
     - oreanetdb:oreanetdb
     - oreanetgis:oreanetgis
 
-oreanetrest:
-  image: sylviefiat/apache-php
-  command: /run.sh
-  hostname: oreanetrest
-  ports:
-    - 83:80
-  volumes:
-    - ./oreanet_rest_data/html:/var/www/html
-    - ./oreanet_rest_data/sites-enabled:/etc/apache2/sites-enabled
-    - ./oreanet_rest_data/ssmtp:/etc/ssmtp/
-  links:
-    - oreanetdb:oreanetdb
+ #oreanet-vt:
+ # image: sylviefiat/vcot-monitoring
+ # hostname: oreanet-vt
+ # ports:
+ #   - 85:80
+ #   - 27:25
+ # volumes:
+ #   - ./oreanet-vt_data/app:/app
+ # links:
+ #   - oreanetgis:oreanetgis
+
 
