@@ -5,7 +5,7 @@ oreanetdb:
   volumes:
     - ./oreanetdb_data:/var/lib/mysql
   ports:
-    - "3307:3306"
+    - "3306:3306"
   environment:
     - MYSQL_USER=docker
     - MYSQL_USER_PWD=docker
@@ -17,35 +17,43 @@ oreanetgis:
   volumes:
     - ./oreanetgis_data/data_dir:/opt/geoserver/data_dir
   ports:
-    - "8082:8080"
+    - "8080:8080"
   links:
     - oreanetdb:oreanetdb
 
 oreanet:
-  image: sylviefiat/joomla-cot
-  command: /run.sh
+#  image: sylviefiat/joomla-cot:2.0
+#  build:
+#    context: ./oreanet_data
+#  command: /run.sh
+  image: joomla
   hostname: oreanet
   ports:
-    - 82:80
-    - 25:25
+    - 80:80
+#    - 25:25
   volumes:
     - ./oreanet_data/app:/app
+  environment:
+    - JOOMLA_DB_HOST=oreanetdb:3306
+    - JOOMLA_DB_USER=docker
+    - JOOMLA_DB_PASSWORD=docker
+    - JOOMLA_DB_NAME=oreanet
   links:
     - oreanetdb:oreanetdb
     - oreanetgis:oreanetgis
 
-oreanet-fj:
-  image: sylviefiat/joomla-cot
-  command: /run.sh
-  hostname: oreanet-fj
-  ports:
-    - 84:80
-    - 26:25
-  volumes:
-    - ./oreanet-fj_data/app:/app
-  links:
-    - oreanetdb:oreanetdb
-    - oreanetgis:oreanetgis
+#oreanet-fj:
+#  image: sylviefiat/joomla-cot
+#  command: /run.sh
+#  hostname: oreanet-fj
+#  ports:
+#    - 84:80
+#    - 26:25
+#  volumes:
+#    - ./oreanet-fj_data/app:/app
+#  links:
+#    - oreanetdb:oreanetdb
+#    - oreanetgis:oreanetgis
 
  #oreanet-vt:
  # image: sylviefiat/vcot-monitoring
